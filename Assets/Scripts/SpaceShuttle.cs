@@ -42,8 +42,14 @@ public class SpaceShuttle : MonoBehaviour
         }
 
         rotation.x = pitch * pitchSpeed;
-        rotation.y = roll * rollSpeed;
+        rotation.z = -roll * rollSpeed;
         
         rigidBody.transform.Rotate(rotation);
+
+        
+        // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
+        rigidBody.angularVelocity = Vector3.zero;
+
+
     }
 }
