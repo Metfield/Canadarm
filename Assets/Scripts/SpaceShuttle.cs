@@ -13,9 +13,12 @@ public class SpaceShuttle : MonoBehaviour
     protected float rollSpeed;
 
     [SerializeField]
+    protected float yawSpeed;
+
+    [SerializeField]
     protected float pitchSpeed;
 
-    protected float roll, pitch;
+    protected float roll, pitch, yaw;
 
     protected Vector3 acceleration;
     protected Vector3 rotation;
@@ -33,7 +36,7 @@ public class SpaceShuttle : MonoBehaviour
 	void Update ()
     {
         roll = Input.GetAxis("Horizontal");
-        pitch = Input.GetAxis("Vertical");
+        pitch = Input.GetAxis("Vertical");        
 
         if(Input.GetKey(KeyCode.Space))
         {            
@@ -41,15 +44,26 @@ public class SpaceShuttle : MonoBehaviour
             rigidBody.AddForce(acceleration);
         }
 
+        yaw = 0;
+
+        // Extra yaw skit
+        if(Input.GetKey(KeyCode.E))
+        {
+            yaw = 1;
+        }
+
+        if(Input.GetKey(KeyCode.Q))
+        {
+            yaw = -1;
+        }
+
         rotation.x = pitch * pitchSpeed;
         rotation.z = -roll * rollSpeed;
+        rotation.y = yaw * yawSpeed;
         
         rigidBody.transform.Rotate(rotation);
-
         
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         rigidBody.angularVelocity = Vector3.zero;
-
-
     }
 }
