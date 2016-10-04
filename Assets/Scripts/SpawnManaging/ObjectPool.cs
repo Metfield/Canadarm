@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Objects are considered to be in the pool if
 /// they are inactive in the scene hierarchy.
 /// </summary>
-public class GameObjectPool : MonoBehaviour
+public class ObjectPool : MonoBehaviour
 {
     [SerializeField]
     private GameObject m_pooledObject;
@@ -32,10 +32,10 @@ public class GameObjectPool : MonoBehaviour
         }
     }
 
-		public GameObject[] GetObjectPool()
-		{
-			return m_GameObjPool;
-		}
+	public GameObject[] GetObjectPool()
+	{
+		return m_GameObjPool;
+	}
 
     /// <summary>
     /// Get an object from the pool.
@@ -46,7 +46,7 @@ public class GameObjectPool : MonoBehaviour
     /// Will return null if the pool is empty.
     /// </summary>
     /// <returns>A game object, null if none is available</returns>
-    public void GetPooledObject(vec3 spawnPos)
+    public void GetPooledObject(Vector3 spawnPos)
     {
 
             GameObject pooledObj = null;
