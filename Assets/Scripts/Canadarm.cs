@@ -4,29 +4,39 @@ using System.Collections;
 public class Canadarm : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject pivotOne;
+    protected GameObject middlePivot;
 
     [SerializeField]
-    protected GameObject pivotTwo;
+    protected float rotationSpeed;
 
     protected float x, y, z,
-                    dx, dy, dz;
+                    dx, dy, dz, twist;
+
+    protected Vector3 rotation;
 
 	// Use this for initialization
 	void Start ()
     {
-	    
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
         // Get Joystick values
-        dx = Input.GetAxis("Horizontal");
-        dy = Input.GetAxis("Vertical");
-        dz = Input.GetAxis("Z Axis");
+        dx = Input.GetAxis("Vertical") * rotationSpeed;
+        dy = Input.GetAxis("Horizontal") * rotationSpeed;
+        dz = Input.GetAxis("Z Axis") * rotationSpeed;
 
-        
+        twist = Input.GetAxis("RZ Axis") * rotationSpeed;
 
+        rotation.x = -dx;
+        rotation.y = dy;
+        rotation.z = -twist;
+
+        this.transform.Rotate(rotation);
+
+        // -dz in X
+        middlePivot.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));        
     }
 }
