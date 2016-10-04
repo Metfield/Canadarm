@@ -28,6 +28,8 @@ public class SpaceShuttle : NetworkBehaviour
     protected Vector3 hardcodeZero;
     protected bool axisStarted;
 
+	protected Camera camera;
+
     // Use this for initialization
     void Start ()
     {
@@ -38,6 +40,16 @@ public class SpaceShuttle : NetworkBehaviour
 
         // Set all axes to 0
         Input.ResetInputAxes();
+		camera = GetComponentInChildren<Camera>();
+
+		if (!isLocalPlayer) {
+			camera.enabled = false;
+
+		} else
+		{
+			camera.enabled = true;
+		}
+
     }
 	
 	// Update is called once per frame
@@ -47,6 +59,9 @@ public class SpaceShuttle : NetworkBehaviour
 		{
 			return;
 		}
+	
+		
+
 
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
