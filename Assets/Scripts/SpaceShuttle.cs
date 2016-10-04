@@ -19,47 +19,78 @@ public class SpaceShuttle : MonoBehaviour
     protected float pitchSpeed;
 
     protected float roll, pitch, yaw;
+    protected float throttle;
 
     protected Vector3 acceleration;
     protected Vector3 rotation;
 
     protected Vector3 hardcodeZero;
+    protected bool axisStarted;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         acceleration = new Vector3(0.0f, 0.0f, 0.0f);
         rotation = new Vector3(0.0f, 0.0f, 0.0f);
+
+        axisStarted = false;
+
+        // Set all axes to 0
+        Input.ResetInputAxes();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         roll = Input.GetAxis("Horizontal");
-        pitch = Input.GetAxis("Vertical");        
+        pitch = Input.GetAxis("Vertical");
+        yaw = Input.GetAxis("RZ Axis");
 
-        if(Input.GetKey(KeyCode.Space))
+        throttle = Input.GetAxis("Z Axis");
+        
+        if (Input.GetKey(KeyCode.Space))
         {            
             acceleration = transform.forward * maxSpeed;
             rigidBody.AddForce(acceleration);
         }
+        else
+        {
+            // This fixes stupid bug when ship starts game by throttling forward
+            if (throttle != 0)
+                axisStarted = true;
 
-        yaw = 0;
+            // Use Joystick
+            if (axisStarted)
+            {
+                acceleration = (throttle + 1.0f) * transform.forward * maxSpeed;
+                rigidBody.AddForce(acceleration);
+            }
+        }
+
+        rigidBody.AddForce(Input.GetAxis("Slider Axis") * transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
-        if(Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             yaw = 1;
+        }
+        else if(Input.GetKeyUp(KeyCode.E))
+        {
+            yaw = 0;
         }
 
         if(Input.GetKey(KeyCode.Q))
         {
             yaw = -1;
         }
+        else if (Input.GetKeyUp(KeyCode.Q))
+        {
+            yaw = 0;
+        }
 
-        rotation.x = pitch * pitchSpeed;
-        rotation.z = -roll * rollSpeed;
         rotation.y = yaw * yawSpeed;
+        rotation.x = pitch * pitchSpeed;
+        rotation.z = -roll * rollSpeed;        
         
         rigidBody.transform.Rotate(rotation);
         
