@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class SpaceShuttle : MonoBehaviour
+public class SpaceShuttle : NetworkBehaviour
 {
     [SerializeField]
     protected Rigidbody rigidBody;
@@ -42,6 +43,11 @@ public class SpaceShuttle : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+		if (!isLocalPlayer)
+		{
+			return;
+		}
+
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
         yaw = Input.GetAxis("RZ Axis");
