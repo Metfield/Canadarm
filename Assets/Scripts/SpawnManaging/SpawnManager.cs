@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
 
     private GameObject[] objPool;
 
-	private static SpawnManager instance = null;
+	public static SpawnManager instance = null;
 
     public void Awake()
     {
