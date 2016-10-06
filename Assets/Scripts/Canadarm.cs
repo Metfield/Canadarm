@@ -13,15 +13,15 @@ public class Canadarm : MonoBehaviour
                     dx, dy, dz, twist;
 
     protected Vector3 rotation;
-
-	// Use this for initialization
-	void Start ()
+    
+    // Use this for initialization
+    void Start()
     {
-        
+
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         // Get Joystick values
         dx = Input.GetAxis("Vertical") * rotationSpeed;
@@ -32,11 +32,11 @@ public class Canadarm : MonoBehaviour
 
         rotation.x = -dx;
         rotation.y = dy;
-        rotation.z = -twist;
 
-        this.transform.Rotate(rotation);
+        this.transform.Rotate(rotation, Space.World);
+        this.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
 
         // -dz in X
-        middlePivot.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));        
+        middlePivot.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));
     }
 }
