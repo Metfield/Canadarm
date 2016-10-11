@@ -6,6 +6,7 @@ public class SpaceShuttle : NetworkBehaviour
 {
     [SerializeField]
     protected Rigidbody rigidBody;
+	protected Rigidbody playerRigidBody;
 
     [SerializeField]
     protected float maxSpeed;
@@ -30,9 +31,16 @@ public class SpaceShuttle : NetworkBehaviour
 
 	protected Camera camera;
 
+	protected GameObject objectToMove;
+
     // Use this for initialization
     void Start ()
     {
+
+		objectToMove = GameObject.FindWithTag ("Player");
+
+		playerRigidBody = objectToMove.GetComponent<Rigidbody> ();
+
         acceleration = new Vector3(0.0f, 0.0f, 0.0f);
         rotation = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -72,7 +80,8 @@ public class SpaceShuttle : NetworkBehaviour
         if (Input.GetKey(KeyCode.Space))
         {            
             acceleration = transform.forward * maxSpeed;
-            rigidBody.AddForce(acceleration);
+            playerRigidBody.AddForce(acceleration);
+
         }
         else
         {
@@ -84,11 +93,11 @@ public class SpaceShuttle : NetworkBehaviour
             if (axisStarted)
             {
                 acceleration = (throttle + 1.0f) * transform.forward * maxSpeed;
-                rigidBody.AddForce(acceleration);
+                playerRigidBody.AddForce(acceleration);
             }
         }
 
-        rigidBody.AddForce(Input.GetAxis("Slider Axis") * transform.right * (maxSpeed * 0.5f));
+        playerRigidBody.AddForce(Input.GetAxis("Slider Axis") * transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
         if (Input.GetKey(KeyCode.E))
@@ -113,9 +122,9 @@ public class SpaceShuttle : NetworkBehaviour
         rotation.x = pitch * pitchSpeed;
         rotation.z = -roll * rollSpeed;        
         
-        rigidBody.transform.Rotate(rotation);
+        playerRigidBody.transform.Rotate(rotation);
         
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
-        rigidBody.angularVelocity = Vector3.zero;
+        playerRigidBody.angularVelocity = Vector3.zero;
     }
 }
