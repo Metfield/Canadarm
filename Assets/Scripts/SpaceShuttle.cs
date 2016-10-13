@@ -51,7 +51,12 @@ public class SpaceShuttle : NetworkBehaviour
 		}
 
     }
-	
+
+  public float GetMaxSpeed()
+  {
+    return maxSpeed;
+  }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -59,8 +64,8 @@ public class SpaceShuttle : NetworkBehaviour
 		{
 			return;
 		}
-	
-		
+
+
 
 
         roll = Input.GetAxis("Horizontal");
@@ -68,9 +73,9 @@ public class SpaceShuttle : NetworkBehaviour
         yaw = Input.GetAxis("RZ Axis");
 
         throttle = Input.GetAxis("Z Axis");
-        
+
         if (Input.GetKey(KeyCode.Space))
-        {            
+        {
             acceleration = transform.forward * maxSpeed;
             rigidBody.AddForce(acceleration);
         }
@@ -111,10 +116,10 @@ public class SpaceShuttle : NetworkBehaviour
 
         rotation.y = yaw * yawSpeed;
         rotation.x = pitch * pitchSpeed;
-        rotation.z = -roll * rollSpeed;        
-        
+        rotation.z = -roll * rollSpeed;
+
         rigidBody.transform.Rotate(rotation);
-        
+
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         rigidBody.angularVelocity = Vector3.zero;
     }

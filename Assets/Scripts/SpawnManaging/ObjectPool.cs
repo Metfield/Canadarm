@@ -46,7 +46,7 @@ public class ObjectPool : MonoBehaviour
     /// Will return null if the pool is empty.
     /// </summary>
     /// <returns>A game object, null if none is available</returns>
-    public void GetPooledObject(Vector3 spawnPos)
+    public void GetPooledObject(Vector3 spawnPos, Vector3 acceleration)
     {
 
             GameObject pooledObj = null;
@@ -59,6 +59,10 @@ public class ObjectPool : MonoBehaviour
                 }
             }
 						pooledObj.transform.position = spawnPos;
+            pooledObj.GetComponent<SatelliteBehaviour>().SetAcceleration(acceleration);
+            {
+
+            }
             pooledObj.SetActive(true);
 
     }
