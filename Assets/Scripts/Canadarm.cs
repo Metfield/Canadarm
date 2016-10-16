@@ -4,47 +4,78 @@ using System.Collections;
 public class Canadarm : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject middlePivot;
+    protected GameObject upperArm;
+
+    [SerializeField]
+    protected GameObject foreArm;
 
     [SerializeField]
     protected float rotationSpeed;
 
     [SerializeField]
-    protected BoxCollider armCollider;
+    protected float foreArmMaxAngle;
+
+    /*[SerializeField]
+    protected GameObject spaceShuttle;*/
 
     protected float x, y, z,
                     dx, dy, dz, twist;
 
     protected Vector3 rotation;
 
+    protected float xRotationHack;
+
+    // Rigid bodies
+    protected Rigidbody upperArmRigidBody;
+    protected Rigidbody foreArmRigidBody;
+
     // Use this for initialization
     void Start()
     {
+        // Get rigid bodies
+        upperArmRigidBody = upperArm.GetComponent<Rigidbody>();
+        foreArmRigidBody = foreArm.GetComponent<Rigidbody>();
 
+        // Initialize hack
+        xRotationHack = 0.0f;
+
+        // Init rotation vector
+        rotation = new Vector3();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Get Joystick values
-        dx = Input.GetAxis("Vertical") * rotationSpeed;
-        dy = Input.GetAxis("Horizontal") * rotationSpeed;
-        dz = Input.GetAxis("Z Axis") * rotationSpeed;
+        // Add Space shuttle's transformations
+       /* transform.Rotate(spaceShuttle.transform.rotation.eulerAngles);*/
+
+
 
         twist = Input.GetAxis("RZ Axis") * rotationSpeed;
 
-        rotation.x = -dx;
-        rotation.y = dy;
+        // Do Upper arm movement
+        dx = Input.GetAxis("Vertical") * rotationSpeed;
+        dy = Input.GetAxis("Horizontal") * rotationSpeed;
+        
+        upperArmRigidBody.AddForce(dx * transform.up);
+        upperArmRigidBody.AddForce(dy * transform.right);
 
-        this.transform.Rotate(rotation, Space.World);
-        this.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
+        // Get forearm movement rotation factor
+        dz = Input.GetAxis("Z Axis") * rotationSpeed * 0.01f;
+        xRotationHack += dz;
 
-        Rigidbody rb = middlePivot.GetComponent<Rigidbody>();
+        // Check for max angle boundaries
+        if (Mathf.Abs(xRotationHack) < foreArmMaxAngle)
+        {
+            // Rotate forearm 
+            rotation.x = -dz;
+            foreArmRigidBody.transform.Rotate(rotation);
+        }
+        else
+        {
+            // If it's bigger then push it back to the boundaries
+            xRotationHack -= dz;
+        }
+    }
 
-        middlePivot.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));
-       /* Quaternion deltaRotation = Quaternion.Euler(new Vector3(-dz, 0.0f, 0.0f));
-        rb.MoveRotation(rb.transform.rotation * deltaRotation);*/
-
-
-    }  
 }

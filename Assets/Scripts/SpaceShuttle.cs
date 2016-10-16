@@ -103,4 +103,31 @@ public class SpaceShuttle : NetworkBehaviour
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         rigidBody.angularVelocity = Vector3.zero;
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("yo gabba gabba COLLISION!" + collision.gameObject.tag);
+
+        if (collision.gameObject.tag == "ArmShuttleCollider")
+        {
+            //Debug.Log("MOTHAFACKA!!!");
+            //mIsCollidingWithShip = true;
+
+            // STOP MOMENTUM
+        }
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("yo gabba gabba SUCK MAH TRIGGER! " + other.tag);
+
+        if (other.tag == "ArmShuttleCollider")
+        {
+            //Debug.Log("MOTHAFACKA!!!");
+
+          //  mLastAxisValue = Input.GetAxis("Z Axis");
+          //  mIsCollidingWithShip = true;
+        }
+    }
 }
