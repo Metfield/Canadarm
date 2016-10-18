@@ -114,11 +114,11 @@ public class SpaceShuttle : NetworkBehaviour
             yaw = 0;
         }
 
-      /*  rotation.y = yaw * yawSpeed;
+        rotation.y = yaw * yawSpeed;
         rotation.x = pitch * pitchSpeed;
         rotation.z = -roll * rollSpeed;
 
-        rigidBody.transform.Rotate(rotation);*/
+        rigidBody.transform.Rotate(rotation);
 
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         rigidBody.angularVelocity = Vector3.zero;
