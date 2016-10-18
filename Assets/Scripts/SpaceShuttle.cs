@@ -52,12 +52,9 @@ public class SpaceShuttle : NetworkBehaviour
         Input.ResetInputAxes();
 		cameraToMove = objectToMove.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
-		Debug.Log ("camera to move: " + cameraToMove.tag);
 
-		//if (isLocalPlayer) {
-			cameraNotToMove.enabled = false;
-			cameraToMove.enabled = true;
-		//}
+		cameraNotToMove.enabled = false;
+		cameraToMove.enabled = true;
 
     }
 	
@@ -69,7 +66,7 @@ public class SpaceShuttle : NetworkBehaviour
 			return;
 		}
 	
-		
+		Debug.Log ("Input: " + Input.inputString);
 
 
         roll = Input.GetAxis("Horizontal");
@@ -80,7 +77,7 @@ public class SpaceShuttle : NetworkBehaviour
         
         if (Input.GetKey(KeyCode.Space))
         {            
-            acceleration = transform.forward * maxSpeed;
+            acceleration = objectToMove.transform.forward * maxSpeed;
             playerRigidBody.AddForce(acceleration);
 
         }
@@ -93,12 +90,12 @@ public class SpaceShuttle : NetworkBehaviour
             // Use Joystick
             if (axisStarted)
             {
-                acceleration = (throttle + 1.0f) * transform.forward * maxSpeed;
+				acceleration = (throttle + 1.0f) * objectToMove.transform.forward * maxSpeed;
                 playerRigidBody.AddForce(acceleration);
             }
         }
 
-        playerRigidBody.AddForce(Input.GetAxis("Slider Axis") * transform.right * (maxSpeed * 0.5f));
+		playerRigidBody.AddForce(Input.GetAxis("Slider Axis") * objectToMove.transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
         if (Input.GetKey(KeyCode.E))
