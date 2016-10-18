@@ -16,10 +16,17 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	private int MinSpawnDistance;
 
-  [SerializeField]
-  private float SlowerThanShip;
+    [SerializeField]
+    private float SlowerThanShip;
+
+    [SerializeField]
+    private int delaySecondsRespawn;
 
     private GameObject[] objPool;
+
+    private float time;
+
+    private bool respawnPending = false;
 
 	public static SpawnManager instance = null;
 
@@ -43,6 +50,24 @@ public class SpawnManager : MonoBehaviour
     Vector3 acceleration = CalculateAcceleration();
 		objectPool.GetPooledObject(spawnPos, acceleration);
 	}
+
+    public void ReSpawnObject()
+    {
+        this.time = Time.time;
+        respawnPending = true;
+    }
+
+    public void Update()
+    {
+        if(respawnPending)
+        {
+            if (Time.time - time < delaySecondsRespawn)
+            {
+                Spawnobject();
+                respawnPending = false;
+            }
+        }
+    }
 
 	public Vector3 CalculateSpawnPos()
 	{

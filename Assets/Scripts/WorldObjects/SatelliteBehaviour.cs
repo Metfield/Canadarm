@@ -20,6 +20,15 @@ public class SatelliteBehaviour : MonoBehaviour {
     {
     }
 
+    public void OnTriggerEnter(Collider collider)
+    {
+        if(collider.CompareTag("CanadarmTip"))
+        {
+            gameObject.SetActive(false);
+            SpawnManager.instance.ReSpawnObject();
+        }
+    }
+
 		public void SetAcceleration(Vector3 acc)
 		{
 			acceleration = acc;
