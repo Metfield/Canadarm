@@ -32,13 +32,15 @@ public class SpaceShuttle : NetworkBehaviour
 	protected Camera cameraToMove;
 	protected Camera cameraNotToMove;
 
+	protected GameObject shuttle;
 	protected GameObject objectToMove;
 
     // Use this for initialization
     void Start ()
     {
-
-		objectToMove = GameObject.FindWithTag ("Player");
+		
+		shuttle = GameObject.FindWithTag ("Player");
+		objectToMove = GameObject.FindGameObjectWithTag ("Player Cupola");
 
 
 		playerRigidBody = objectToMove.GetComponent<Rigidbody> ();
@@ -50,14 +52,22 @@ public class SpaceShuttle : NetworkBehaviour
 
         // Set all axes to 0
         Input.ResetInputAxes();
-		cameraToMove = objectToMove.GetComponentInChildren<Camera>();
+		cameraToMove = shuttle.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
+
+		Debug.Log ("camera to move: " + cameraToMove.tag);
+		Debug.Log ("camera not to move: " + cameraNotToMove.tag);
 
 		cameraNotToMove.enabled = false;
 		cameraToMove.enabled = true;
 
     }
-	
+
+  public float GetMaxSpeed()
+  {
+    return maxSpeed;
+  }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -68,18 +78,16 @@ public class SpaceShuttle : NetworkBehaviour
 	
 		Debug.Log ("Input: " + Input.inputString);
 
-
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
         yaw = Input.GetAxis("RZ Axis");
 
         throttle = Input.GetAxis("Z Axis");
-        
+
         if (Input.GetKey(KeyCode.Space))
         {            
             acceleration = objectToMove.transform.forward * maxSpeed;
             playerRigidBody.AddForce(acceleration);
-
         }
         else
         {
@@ -121,7 +129,7 @@ public class SpaceShuttle : NetworkBehaviour
         rotation.z = -roll * rollSpeed;        
         
         playerRigidBody.transform.Rotate(rotation);
-        
+
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         playerRigidBody.angularVelocity = Vector3.zero;
     }

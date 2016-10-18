@@ -16,9 +16,12 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField]
 	private int MinSpawnDistance;
 
+  [SerializeField]
+  private float SlowerThanShip;
+
     private GameObject[] objPool;
 
-	private static SpawnManager instance = null;
+	public static SpawnManager instance = null;
 
     public void Awake()
     {
@@ -34,23 +37,41 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-	public SpawnManager getInstance()
-	{
-		return instance;
-	}
-
 	public void Spawnobject()
 	{
 		Vector3 spawnPos = CalculateSpawnPos();
-		objectPool.GetPooledObject(spawnPos);
+    Vector3 acceleration = CalculateAcceleration();
+		objectPool.GetPooledObject(spawnPos, acceleration);
 	}
 
 	public Vector3 CalculateSpawnPos()
 	{
-        Vector3 shipPos = ship.transform.position;
-        Vector3 spawnPos = new Vector3(Random.Range(shipPos.x + MinSpawnDistance, shipPos.x + MaxSpawnDistance) * (Random.Range(0,2) * 2 -1),
-                                        Random.Range(shipPos.y + MinSpawnDistance, shipPos.y + MaxSpawnDistance) * (Random.Range(0,2) * 2 -1),
-                                        Random.Range(shipPos.z + MinSpawnDistance, shipPos.z + MaxSpawnDistance) * (Random.Range(0,2) * 2 -1));
-		return spawnPos;
+    Vector3 shipPos = ship.transform.position;
+    Vector3 spawnPos;
+
+    // generates a random 3D point in Polar coordiantes
+
+    int radius = Random.Range(MinSpawnDistance, MaxSpawnDistance);
+    float theta = Random.Range(0, 2*Mathf.PI);
+    float phi = Random.Range(-Mathf.PI/2, Mathf.PI/2);
+
+    return PolarToCartesian(radius, theta, phi);
 	}
+
+  // Converts Polar coordinates to cartesian.
+  public Vector3 PolarToCartesian(int radius, float theta, float phi)
+  {
+    Vector3 shipPos = ship.transform.position;
+    Vector3 spawnPos = new Vector3(radius * Mathf.Cos(theta) * Mathf.Cos(phi) + shipPos.x,
+                           radius * Mathf.Sin(phi) + shipPos.y,
+                           radius * Mathf.Sin(theta) * Mathf.Cos(phi) + shipPos.z);
+  return spawnPos;
+  }
+
+  public Vector3 CalculateAcceleration()
+  {
+    float maxSpeed = ship.GetComponent<SpaceShuttle>().GetMaxSpeed();
+    Vector3 acceleration = new Vector3(Random.Range(0, maxSpeed * SlowerThanShip), Random.Range(0, maxSpeed * SlowerThanShip), Random.Range(0, maxSpeed * SlowerThanShip));
+    return acceleration;
+  }
 }
