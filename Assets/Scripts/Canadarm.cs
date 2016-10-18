@@ -39,9 +39,9 @@ public class Canadarm : MonoBehaviour
     void Update()
     {
         // Get Joystick values
-        dx = Input.GetAxis("Vertical") * rotationSpeed;
-        dy = Input.GetAxis("Horizontal") * rotationSpeed;
-        dz = Input.GetAxis("Z Axis") * rotationSpeed;
+        dx = Input.GetAxis("Vertical2") * rotationSpeed;
+        dy = Input.GetAxis("Horizontal2") * rotationSpeed;
+        dz = Input.GetAxis("Z Axis2") * rotationSpeed;
 
         // Update arm's custom rotation values
         basePivotCurrentVerticalAngle -= dx;
@@ -51,7 +51,7 @@ public class Canadarm : MonoBehaviour
         // Set rotation to zero
         rotation = Vector3.zero;
 
-        twist = Input.GetAxis("RZ Axis") * rotationSpeed;
+        twist = Input.GetAxis("RZ Axis2") * rotationSpeed;
 
         // Check for horizontal rotation boundaries at base
         if(Mathf.Abs(basePivotCurrentHorizontalAngle) < basePivotHorizontalMaxAngle)
