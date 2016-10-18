@@ -39,7 +39,7 @@ public class SpaceShuttle : NetworkBehaviour
     void Start ()
     {
 		
-		shuttle = GameObject.FindWithTag ("Player");
+		//shuttle = GameObject.FindWithTag ("Player");
 		objectToMove = GameObject.FindGameObjectWithTag ("Player Cupola");
 
 
@@ -52,7 +52,7 @@ public class SpaceShuttle : NetworkBehaviour
 
         // Set all axes to 0
         Input.ResetInputAxes();
-		cameraToMove = shuttle.GetComponentInChildren<Camera>();
+		cameraToMove = objectToMove.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
 
 		Debug.Log ("camera to move: " + cameraToMove.tag);
