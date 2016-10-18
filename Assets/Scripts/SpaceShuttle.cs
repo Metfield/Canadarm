@@ -4,8 +4,6 @@ using UnityEngine.Networking;
 
 public class SpaceShuttle : NetworkBehaviour
 {
-    [SerializeField]
-    protected Rigidbody rigidBody;
 	protected Rigidbody playerRigidBody;
 
     [SerializeField]
@@ -40,10 +38,9 @@ public class SpaceShuttle : NetworkBehaviour
     {
 		
 		//shuttle = GameObject.FindWithTag ("Player");
-		objectToMove = GameObject.FindGameObjectWithTag ("Player Cupola");
+		objectToMove = GameObject.FindGameObjectWithTag ("Player");
 
-
-		playerRigidBody = objectToMove.GetComponent<Rigidbody> ();
+        playerRigidBody = objectToMove.GetComponent<Rigidbody>();//      objectToMove.GetComponent<Rigidbody> ();
 
         acceleration = new Vector3(0.0f, 0.0f, 0.0f);
         rotation = new Vector3(0.0f, 0.0f, 0.0f);
@@ -81,6 +78,9 @@ public class SpaceShuttle : NetworkBehaviour
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
         yaw = Input.GetAxis("RZ Axis");
+
+
+        Debug.Log("Suck mah balls: " + roll);
 
         throttle = Input.GetAxis("Z Axis");
 
@@ -128,7 +128,7 @@ public class SpaceShuttle : NetworkBehaviour
         rotation.x = pitch * pitchSpeed;
         rotation.z = -roll * rollSpeed;        
         
-        playerRigidBody.transform.Rotate(rotation);
+        playerRigidBody.transform.Rotate(rotation, Space.Self);
 
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         playerRigidBody.angularVelocity = Vector3.zero;

@@ -39,7 +39,7 @@ public class Canadarm : MonoBehaviour
     void Update()
     {
         // Get Joystick values
-        dx = Input.GetAxis("Vertical") * rotationSpeed;
+       /* dx = Input.GetAxis("Vertical") * rotationSpeed;
         dy = Input.GetAxis("Horizontal") * rotationSpeed;
         dz = Input.GetAxis("Z Axis") * rotationSpeed;
 
@@ -90,6 +90,6 @@ public class Canadarm : MonoBehaviour
         {
             // Out of boundaries, fix boundary
             middlePivotCurrentAngle += dz;
-        }
+        }*/
     }
 }
