@@ -29,7 +29,8 @@ public class SpaceShuttle : NetworkBehaviour
     protected Vector3 hardcodeZero;
     protected bool axisStarted;
 
-	protected Camera camera;
+	protected Camera cameraToMove;
+	protected Camera cameraNotToMove;
 
 	protected GameObject objectToMove;
 
@@ -38,6 +39,7 @@ public class SpaceShuttle : NetworkBehaviour
     {
 
 		objectToMove = GameObject.FindWithTag ("Player");
+
 
 		playerRigidBody = objectToMove.GetComponent<Rigidbody> ();
 
@@ -48,15 +50,14 @@ public class SpaceShuttle : NetworkBehaviour
 
         // Set all axes to 0
         Input.ResetInputAxes();
-		camera = GetComponentInChildren<Camera>();
+		cameraToMove = objectToMove.GetComponentInChildren<Camera>();
+		cameraNotToMove = GetComponentInChildren<Camera>();
+		Debug.Log ("camera to move: " + cameraToMove.tag);
 
-		if (!isLocalPlayer) {
-			camera.enabled = false;
-
-		} else
-		{
-			camera.enabled = true;
-		}
+		//if (isLocalPlayer) {
+			cameraNotToMove.enabled = false;
+			cameraToMove.enabled = true;
+		//}
 
     }
 	
