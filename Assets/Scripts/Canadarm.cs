@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Canadarm : MonoBehaviour
+public class Canadarm : NetworkBehaviour
 {
     [SerializeField]
     protected GameObject middlePivot;
@@ -28,10 +29,22 @@ public class Canadarm : MonoBehaviour
 
     protected Vector3 rotation;
     protected float middlePivotCurrentAngle;
+
+	protected GameObject forearm;
+	protected GameObject canadarm;
+	protected GameObject shuttle;
     
     // Use this for initialization
     void Start()
     {
+		shuttle = GameObject.FindGameObjectWithTag ("SpaceShuttle");
+		canadarm = shuttle.transform.Find("Cupola/Canadarm").gameObject;
+		forearm = shuttle.transform.Find("Cupola/Canadarm/Base Pivot/UpperArm/Forearm").gameObject;
+
+		if (canadarm)
+			Debug.Log ("chinpokomon");
+
+
         middlePivotCurrentAngle = 0.0f;
     }
 
@@ -39,9 +52,9 @@ public class Canadarm : MonoBehaviour
     void Update()
     {
         // Get Joystick values
-        dx = Input.GetAxis("Vertical2") * rotationSpeed;
-        dy = Input.GetAxis("Horizontal2") * rotationSpeed;
-        dz = Input.GetAxis("Z Axis2") * rotationSpeed;
+        dx = Input.GetAxis("Vertical") * rotationSpeed;
+        dy = Input.GetAxis("Horizontal") * rotationSpeed;
+        dz = Input.GetAxis("Z Axis") * rotationSpeed;
 
         // Update arm's custom rotation values
         basePivotCurrentVerticalAngle -= dx;
@@ -51,7 +64,7 @@ public class Canadarm : MonoBehaviour
         // Set rotation to zero
         rotation = Vector3.zero;
 
-        twist = Input.GetAxis("RZ Axis2") * rotationSpeed;
+        twist = Input.GetAxis("RZ Axis") * rotationSpeed;
 
         // Check for horizontal rotation boundaries at base
         if(Mathf.Abs(basePivotCurrentHorizontalAngle) < basePivotHorizontalMaxAngle)
@@ -77,14 +90,14 @@ public class Canadarm : MonoBehaviour
         }
 
 
-        this.transform.Rotate(rotation, Space.World);
+		canadarm.transform.Rotate(rotation, Space.World);
         //this.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
 
         // Check for max angle
         if (Mathf.Abs(middlePivotCurrentAngle) < middlePivotMaxAngle)
         {
             // Pivot is allowed to rotate
-            middlePivot.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));
+            forearm.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));
         }
         else
         {
