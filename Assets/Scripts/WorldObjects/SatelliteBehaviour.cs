@@ -26,6 +26,7 @@ public class SatelliteBehaviour : MonoBehaviour {
         {
             gameObject.SetActive(false);
             SpawnManager.instance.ReSpawnObject();
+            GameManager.instance.IncrementScore();
         }
     }
 

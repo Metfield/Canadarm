@@ -75,7 +75,6 @@ public class SpawnManager : MonoBehaviour
     Vector3 spawnPos;
 
     // generates a random 3D point in Polar coordiantes
-
     int radius = Random.Range(MinSpawnDistance, MaxSpawnDistance);
     float theta = Random.Range(0, 2*Mathf.PI);
     float phi = Random.Range(-Mathf.PI/2, Mathf.PI/2);
@@ -99,4 +98,9 @@ public class SpawnManager : MonoBehaviour
     Vector3 acceleration = new Vector3(Random.Range(0, maxSpeed * SlowerThanShip), Random.Range(0, maxSpeed * SlowerThanShip), Random.Range(0, maxSpeed * SlowerThanShip));
     return acceleration;
   }
+
+  public void DisableSatellites()
+    {
+        objectPool.Reset();
+    }
 }

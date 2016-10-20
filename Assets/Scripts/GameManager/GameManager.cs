@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +12,23 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
-    public static GameManager instance = null; 
+    [SerializeField]
+    private Text scoreText;
+
+    [SerializeField]
+    private Text endGameText;
+
+    [SerializeField]
+    private int playTimeInSeconds;
+
+    private float gameTime; 
+
+    public static GameManager instance = null;
 
     // Use this for initialization
     void Start()
     {
+        gameTime = Time.time;
 
         if (instance == null)
         {
@@ -24,8 +38,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         InitSatellites();
+        scoreText.GetComponent<Text>();
+        scoreText.text = "SCORE: " + score;
+
+        endGameText.GetComponent<Text>();
+        endGameText.gameObject.SetActive(false);
     }
 
     void InitSatellites()
@@ -37,8 +55,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void IncrementScore()
+    {
+        this.score += 100;
+        scoreText.text = "SCORE: " + score;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    void TimesUp()
+    {
+        gameTime = 0;
+        SpawnManager.instance.DisableSatellites();
+        endGameText.text = "YOUR SCORE " + "\n" + score + " PTS";
+        endGameText.gameObject.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+
     // Update is called once per frame
     void Update()
     {
+        if((int)gameTime % 100 == 0)
+        {
+            if(Time.time - gameTime >= playTimeInSeconds)
+            {
+                Debug.Log("TIMES UP BIATCH!");
+                TimesUp();
+            }
+        }
     }
 }
