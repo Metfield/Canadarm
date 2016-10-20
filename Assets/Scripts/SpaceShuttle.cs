@@ -6,7 +6,7 @@ public class SpaceShuttle : NetworkBehaviour
 {
     [SerializeField]
     protected Rigidbody rigidBody;
-	protected Rigidbody playerRigidBody;
+	protected Rigidbody shuttleRigidBody;
 
     [SerializeField]
     protected float maxSpeed;
@@ -32,18 +32,16 @@ public class SpaceShuttle : NetworkBehaviour
 	protected Camera cameraToMove;
 	protected Camera cameraNotToMove;
 
-	protected GameObject shuttle;
-	protected GameObject objectToMove;
+	protected GameObject shuttleObject;
 
     // Use this for initialization
     void Start ()
     {
 		
-		//shuttle = GameObject.FindWithTag ("Player");
-		objectToMove = GameObject.FindGameObjectWithTag ("Player Cupola");
+		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
 
 
-		playerRigidBody = objectToMove.GetComponent<Rigidbody> ();
+		shuttleRigidBody = shuttleObject.GetComponent<Rigidbody> ();
 
         acceleration = new Vector3(0.0f, 0.0f, 0.0f);
         rotation = new Vector3(0.0f, 0.0f, 0.0f);
@@ -52,7 +50,7 @@ public class SpaceShuttle : NetworkBehaviour
 
         // Set all axes to 0
         Input.ResetInputAxes();
-		cameraToMove = objectToMove.GetComponentInChildren<Camera>();
+		cameraToMove = shuttleObject.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
 
 		Debug.Log ("camera to move: " + cameraToMove.tag);
@@ -86,8 +84,8 @@ public class SpaceShuttle : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {            
-            acceleration = objectToMove.transform.forward * maxSpeed;
-            playerRigidBody.AddForce(acceleration);
+            acceleration = shuttleObject.transform.forward * maxSpeed;
+            shuttleRigidBody.AddForce(acceleration);
         }
         else
         {
@@ -98,12 +96,12 @@ public class SpaceShuttle : NetworkBehaviour
             // Use Joystick
             if (axisStarted)
             {
-				acceleration = (throttle + 1.0f) * objectToMove.transform.forward * maxSpeed;
-                playerRigidBody.AddForce(acceleration);
+				acceleration = (throttle + 1.0f) * shuttleObject.transform.forward * maxSpeed;
+                shuttleRigidBody.AddForce(acceleration);
             }
         }
 
-		playerRigidBody.AddForce(Input.GetAxis("Slider Axis") * objectToMove.transform.right * (maxSpeed * 0.5f));
+		shuttleRigidBody.AddForce(Input.GetAxis("Slider Axis") * shuttleObject.transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
         if (Input.GetKey(KeyCode.E))
@@ -128,9 +126,9 @@ public class SpaceShuttle : NetworkBehaviour
         rotation.x = pitch * pitchSpeed;
         rotation.z = -roll * rollSpeed;        
         
-        playerRigidBody.transform.Rotate(rotation);
+        shuttleRigidBody.transform.Rotate(rotation);
 
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
-        playerRigidBody.angularVelocity = Vector3.zero;
+        shuttleRigidBody.angularVelocity = Vector3.zero;
     }
 }
