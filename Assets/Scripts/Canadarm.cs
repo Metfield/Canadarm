@@ -30,9 +30,12 @@ public class Canadarm : NetworkBehaviour
     protected Vector3 rotation;
     protected float middlePivotCurrentAngle;
 
+    [SyncVar]
 	protected GameObject forearm;
-	protected GameObject canadarm;
-	protected GameObject shuttle;
+    [SyncVar]
+    protected GameObject canadarm;
+    [SyncVar]
+    protected GameObject shuttle;
     
     // Use this for initialization
     void Start()
@@ -40,10 +43,6 @@ public class Canadarm : NetworkBehaviour
 		shuttle = GameObject.FindGameObjectWithTag ("SpaceShuttle");
 		canadarm = shuttle.transform.Find("Cupola/Canadarm").gameObject;
 		forearm = shuttle.transform.Find("Cupola/Canadarm/Base Pivot/UpperArm/Forearm").gameObject;
-
-		if (canadarm)
-			Debug.Log ("chinpokomon");
-
 
         middlePivotCurrentAngle = 0.0f;
     }
@@ -89,15 +88,13 @@ public class Canadarm : NetworkBehaviour
             basePivotCurrentVerticalAngle += dx;
         }
 
-
-		canadarm.transform.Rotate(rotation, Space.World);
-        //this.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
-
+        canadarm.transform.localRotation = Quaternion.Euler(basePivotCurrentVerticalAngle, basePivotCurrentHorizontalAngle, 0.0f);
+ 
         // Check for max angle
         if (Mathf.Abs(middlePivotCurrentAngle) < middlePivotMaxAngle)
         {
             // Pivot is allowed to rotate
-            forearm.transform.Rotate(new Vector3(-dz, 0.0f, 0.0f));
+            forearm.transform.localRotation = Quaternion.Euler(middlePivotCurrentAngle + 90, 0.0f, 0.0f);       /* new Vector3(-middlePivotCurrentAngle, 0.0f, 0.0f));*/
         }
         else
         {
