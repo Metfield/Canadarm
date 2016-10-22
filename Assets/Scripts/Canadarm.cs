@@ -30,11 +30,9 @@ public class Canadarm : NetworkBehaviour
     protected Vector3 rotation;
     protected float middlePivotCurrentAngle;
 
-    [SyncVar]
-	protected GameObject forearm;
-    [SyncVar]
-    protected GameObject canadarm;
-    [SyncVar]
+    
+	protected GameObject forearm;    
+    protected GameObject canadarm;    
     protected GameObject shuttle;
     
     // Use this for initialization
@@ -44,13 +42,22 @@ public class Canadarm : NetworkBehaviour
 		canadarm = shuttle.transform.Find("Cupola/Canadarm").gameObject;
 		forearm = shuttle.transform.Find("Cupola/Canadarm/Base Pivot/UpperArm/Forearm").gameObject;
 
-<<<<<<< HEAD
-=======
-		if (canadarm)
-			//Debug.Log ("chinpokomon");
+        if(canadarm )
+        {
+            Debug.Log("Chinpokomont!!");
 
+        }
 
->>>>>>> 13691034285e8926f5d577349e2c2a8cdb2f0195
+        if (forearm != null)
+        {
+            Debug.Log("YeeeeEEES!!");
+        }
+        else
+        {
+            Debug.Log("ANASKEJFHASLDFKJASDNHFLASMKDFNASLDJMN!!");
+
+        }
+
         middlePivotCurrentAngle = 0.0f;
     }
 
