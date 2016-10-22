@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
 
     private float gameTime;
 
+    private int x = 0;
+
+    private bool gameOver = false;
+
     public static GameManager instance = null;
 
     // Use this for initialization
@@ -68,24 +72,42 @@ public class GameManager : MonoBehaviour
 
     void TimesUp()
     {
-        gameTime = 0;
         SpawnManager.instance.DisableSatellites();
+
         endGameText.text = "YOUR SCORE " + "\n" + score + " PTS";
         endGameText.gameObject.SetActive(true);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gameOver = true;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if ((int)gameTime % 100 == 0)
+        if (x == 100)
         {
+            Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
             if (Time.time - gameTime >= playTimeInSeconds)
             {
                 Debug.Log("TIMES UP BIATCH!");
                 TimesUp();
+                x = 0;
+            }
+        }
+        else
+        {
+            x++;
+        }
+
+        if(gameOver)
+        {
+            if (Input.GetButton("Fire1"))
+            {
+
+                GameManager.instance = null;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                endGameText.gameObject.SetActive(false);
+                gameOver = false;
             }
         }
     }
-}
+} 

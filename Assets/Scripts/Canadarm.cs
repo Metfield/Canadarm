@@ -44,6 +44,13 @@ public class Canadarm : NetworkBehaviour
 		canadarm = shuttle.transform.Find("Cupola/Canadarm").gameObject;
 		forearm = shuttle.transform.Find("Cupola/Canadarm/Base Pivot/UpperArm/Forearm").gameObject;
 
+<<<<<<< HEAD
+=======
+		if (canadarm)
+			//Debug.Log ("chinpokomon");
+
+
+>>>>>>> 13691034285e8926f5d577349e2c2a8cdb2f0195
         middlePivotCurrentAngle = 0.0f;
     }
 

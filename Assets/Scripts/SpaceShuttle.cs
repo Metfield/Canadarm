@@ -53,6 +53,12 @@ public class SpaceShuttle : NetworkBehaviour
 		cameraToMove = shuttleObject.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
 
+<<<<<<< HEAD
+=======
+		//Debug.Log ("camera to move: " + cameraToMove.tag);
+		//Debug.Log ("camera not to move: " + cameraNotToMove.tag);
+
+>>>>>>> 13691034285e8926f5d577349e2c2a8cdb2f0195
 		cameraNotToMove.enabled = false;
 		cameraToMove.enabled = true;
 
@@ -70,6 +76,11 @@ public class SpaceShuttle : NetworkBehaviour
 		{
 			return;
 		}
+<<<<<<< HEAD
+=======
+	
+		//Debug.Log ("Input: " + Input.inputString);
+>>>>>>> 13691034285e8926f5d577349e2c2a8cdb2f0195
 
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
