@@ -29,14 +29,13 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
 
-   
+    private bool timerStarted = false;
+
     protected int suckMyBalls = -1;
 
     // Use this for initialization
     void Start()
     {
-        gameTime = Time.time;
-
         if (instance == null)
         {
             instance = this;
@@ -60,6 +59,17 @@ public class GameManager : MonoBehaviour
     {
         suckMyBalls++;
         return suckMyBalls;
+    }
+
+    public void startTimer()
+    {
+        timerStarted = true;
+        gameTime = Time.time;
+    }
+
+    public bool IsGameOver()
+    {
+        return this.gameOver;
     }
 
     void InitSatellites()
@@ -99,7 +109,7 @@ public class GameManager : MonoBehaviour
         if (x == 100)
         {
             //Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
-            if (Time.time - gameTime >= playTimeInSeconds)
+            if ((Time.time - gameTime >= playTimeInSeconds) && timerStarted)
             {
                 Debug.Log("TIMES UP BIATCH!");
                 TimesUp();
@@ -123,6 +133,7 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 endGameText.gameObject.SetActive(false);
                 gameOver = false;
+                //timerStarted = false;
             }
         }
     }

@@ -76,10 +76,16 @@ public class SpaceShuttle : NetworkBehaviour
         // Gets the space shuttle impostors to FUCK THE FUCK OFF
 		if (gameObject.tag != "SpaceShuttle")
         {
-            if(GameManager.instance.getMyBalls() == 0)
-                gameObject.transform.position = new Vector3(100000, 100000, 100000);                       
+            if (GameManager.instance.getMyBalls() == 0)
+                gameObject.transform.position = new Vector3(100000, 100000, 100000);        // HOST PLAYER
             else
+            {
+                // CLIENT PLAYER
                 gameObject.transform.position = new Vector3(100000, 100000, -100000);
+
+                // STARUTO TIMERU!
+                GameManager.instance.startTimer();
+            }
         }
 
 		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
@@ -135,6 +141,9 @@ public class SpaceShuttle : NetworkBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (GameManager.instance.IsGameOver())
+            return;
+
 		if (!isLocalPlayer)
 		{
 			return;
