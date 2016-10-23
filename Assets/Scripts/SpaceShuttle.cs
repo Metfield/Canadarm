@@ -71,10 +71,10 @@ public class SpaceShuttle : NetworkBehaviour
     // Use this for initialization
     void Start ()
     {
-		if (gameObject.tag != "SpaceShuttle") {
-
-			gameObject.transform.position = new Vector3(100000,100000,100000);
-		
+        // Gets the space shuttle impostors to FUCK THE FUCK OFF
+		if (gameObject.tag != "SpaceShuttle")
+        {
+			gameObject.transform.position = new Vector3(100000,100000,100000);		
 		}
 
 		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
