@@ -217,7 +217,12 @@ public class SpaceShuttle : NetworkBehaviour
         UpdateCanadarm ();
     }
 
-	void UpdateCanadarm()
+    public override void OnDeserialize(NetworkReader reader, bool initialState)
+    {
+        base.OnDeserialize(reader, initialState);
+    }
+
+    void UpdateCanadarm()
     {
 
 		//Debug.Log ("sug kuk space shuttle");
