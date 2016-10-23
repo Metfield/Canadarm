@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class SatelliteBehaviour : NetworkBehaviour
+public class SatelliteBehaviour : MonoBehaviour
 {
 
     private Vector3 acceleration = new Vector3(0, 0, 0);
