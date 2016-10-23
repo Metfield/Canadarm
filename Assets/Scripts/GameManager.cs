@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        InitSatellites();
+        //InitSatellites();
         scoreText.GetComponent<Text>();
         scoreText.text = "SCORE: " + score;
 
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         if (x == 100)
         {
-            Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
+            //Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
             if (Time.time - gameTime >= playTimeInSeconds)
             {
                 Debug.Log("TIMES UP BIATCH!");

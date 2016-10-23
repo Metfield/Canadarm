@@ -58,12 +58,14 @@ public class ObjectPool : MonoBehaviour
                     i = m_poolSize;
                 }
             }
-						pooledObj.transform.position = spawnPos;
-            pooledObj.GetComponent<SatelliteBehaviour>().SetAcceleration(acceleration);
-            {
+		if (m_GameObjPool.Length > 0) {
+			pooledObj.transform.position = spawnPos;
+			pooledObj.GetComponent<SatelliteBehaviour> ().SetAcceleration (acceleration);
+			{
 
-            }
-            pooledObj.SetActive(true);
+			}
+			pooledObj.SetActive (true);
+		}
 
     }
 

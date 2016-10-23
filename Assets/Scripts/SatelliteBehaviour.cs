@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class SatelliteBehaviour : MonoBehaviour
+public class SatelliteBehaviour : NetworkBehaviour
 {
 
     private Vector3 acceleration = new Vector3(0, 0, 0);
@@ -17,6 +18,8 @@ public class SatelliteBehaviour : MonoBehaviour
 
     private Vector3 translation;
 
+	private IEnumerator waitAndHandleCollision;
+
     void OnEnable()
     {
     }
@@ -25,9 +28,9 @@ public class SatelliteBehaviour : MonoBehaviour
     {
         if (collider.CompareTag("CanadarmTip"))
         {
-            gameObject.SetActive(false);
-            SpawnManager.instance.ReSpawnObject();
-            GameManager.instance.IncrementScore();
+			waitAndHandleCollision = WaitAndHandleCollision ();
+			StartCoroutine(waitAndHandleCollision);
+           
         }
     }
 
@@ -45,4 +48,14 @@ public class SatelliteBehaviour : MonoBehaviour
         //this.transform.Rotate(Vector3.up * 50 * Time.deltaTime);
         this.transform.Rotate(rotation * rotationMultiplier * Time.deltaTime);
     }
+
+	IEnumerator WaitAndHandleCollision() {
+		print(Time.time);
+		yield return new WaitForSeconds(1);
+		print(Time.time);
+		gameObject.SetActive(false);
+		//SpawnManager.instance.ReSpawnObject();
+		GameManager.instance.IncrementScore();
+	}
+
 }
