@@ -167,7 +167,7 @@ public class SpaceShuttle : NetworkBehaviour
             }
         }
 
-		/*if (shuttleRigidBody) {
+        /*if (shuttleRigidBody) {
 			Debug.Log ("shuttlerigidbody");
 		}
 		else {
@@ -180,6 +180,7 @@ public class SpaceShuttle : NetworkBehaviour
 			Debug.Log ("not shuttle object");
 		}*/
 
+     
         shuttleRigidBody.AddForce(Input.GetAxis("Slider Axis") * shuttleObject.transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
@@ -222,9 +223,13 @@ public class SpaceShuttle : NetworkBehaviour
         base.OnDeserialize(reader, initialState);
     }
 
+    public override bool OnSerialize(NetworkWriter writer, bool initialState)
+    {
+        return base.OnSerialize(writer, initialState);
+    }
+
     void UpdateCanadarm()
     {
-
 		//Debug.Log ("sug kuk space shuttle");
 		// Get Joystick values
 		dx = Input.GetAxis("Vertical2") * rotationSpeed;
