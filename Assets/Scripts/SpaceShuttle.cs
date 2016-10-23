@@ -70,8 +70,15 @@ public class SpaceShuttle : NetworkBehaviour
 
     // Use this for initialization
     void Start ()
-    {		
+    {
+		if (gameObject.tag != "SpaceShuttle") {
+
+			gameObject.transform.position = new Vector3(100000,100000,100000);
+		
+		}
+
 		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
+
 
 		shuttleRigidBody = shuttleObject.GetComponent<Rigidbody> ();
 
@@ -85,8 +92,8 @@ public class SpaceShuttle : NetworkBehaviour
 		cameraToMove = shuttleObject.GetComponentInChildren<Camera>();
 		cameraNotToMove = GetComponentInChildren<Camera>();
 
-		Debug.Log ("camera to move: " + cameraToMove.tag);
-		Debug.Log ("camera not to move: " + cameraNotToMove.tag);
+		//Debug.Log ("camera to move: " + cameraToMove.tag);
+		//Debug.Log ("camera not to move: " + cameraNotToMove.tag);
 
 		cameraNotToMove.enabled = false;
 		cameraToMove.enabled = true;
@@ -99,7 +106,7 @@ public class SpaceShuttle : NetworkBehaviour
         // Get Canvas stuff
         canvas = GameObject.Find("Canvas");
 
-		if (canadarm) {
+		/*if (canadarm) {
 			Debug.Log ("chinpokomon");
 		}
 		else {
@@ -110,7 +117,7 @@ public class SpaceShuttle : NetworkBehaviour
 		}
 		else {
 			Debug.Log ("not alabama man");
-		}
+		}*/
 
 		middlePivotCurrentAngle = 0.0f;
     }
@@ -128,7 +135,7 @@ public class SpaceShuttle : NetworkBehaviour
 			return;
 		}
 	
-		Debug.Log ("Input: " + Input.inputString);
+		//Debug.Log ("Input: " + Input.inputString);
 
         roll = Input.GetAxis("Horizontal");
         pitch = Input.GetAxis("Vertical");
@@ -155,7 +162,7 @@ public class SpaceShuttle : NetworkBehaviour
             }
         }
 
-		if (shuttleRigidBody) {
+		/*if (shuttleRigidBody) {
 			Debug.Log ("shuttlerigidbody");
 		}
 		else {
@@ -166,7 +173,7 @@ public class SpaceShuttle : NetworkBehaviour
 		}
 		else {
 			Debug.Log ("not shuttle object");
-		}
+		}*/
 
         shuttleRigidBody.AddForce(Input.GetAxis("Slider Axis") * shuttleObject.transform.right * (maxSpeed * 0.5f));
 
@@ -208,7 +215,7 @@ public class SpaceShuttle : NetworkBehaviour
 	void UpdateCanadarm()
     {
 
-		Debug.Log ("sug kuk space shuttle");
+		//Debug.Log ("sug kuk space shuttle");
 		// Get Joystick values
 		dx = Input.GetAxis("Vertical2") * rotationSpeed;
 		dy = Input.GetAxis("Horizontal2") * rotationSpeed;

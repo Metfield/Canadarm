@@ -42,12 +42,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        InitSatellites();
-        // scoreText.GetComponent<Text>();
-        scoreText.gameObject.SetActive(false);
-        //scoreText.text = "SCORE: " + score;
 
-       // endGameText.GetComponent<Text>();
+        // Henrik comment
+        // InitSatellites();
+        
+        scoreText.gameObject.SetActive(false);        
         endGameText.gameObject.SetActive(false);
 
         scoreText.text = "SCORE: " + score;
