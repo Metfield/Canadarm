@@ -57,6 +57,8 @@ public class SpaceShuttle : NetworkBehaviour
 
 	[SerializeField]
 	protected float rotationSpeed;
+        
+    protected GameObject canvas;
 
 	protected float basePivotCurrentVerticalAngle;
 	protected float basePivotCurrentHorizontalAngle;
@@ -68,8 +70,7 @@ public class SpaceShuttle : NetworkBehaviour
 
     // Use this for initialization
     void Start ()
-    {
-		
+    {		
 		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
 
 		shuttleRigidBody = shuttleObject.GetComponent<Rigidbody> ();
@@ -94,6 +95,9 @@ public class SpaceShuttle : NetworkBehaviour
 		canadarm = shuttleObject.transform.Find("Cupola/Canadarm").gameObject;
         hackadarm = shuttleObject.transform.Find("Cupola/Canadarm/HackadarmRotation").gameObject;
 		forearm = shuttleObject.transform.Find("Cupola/Canadarm/HackadarmRotation/Base Pivot/UpperArm/Forearm").gameObject;
+
+        // Get Canvas stuff
+        canvas = GameObject.Find("Canvas");
 
 		if (canadarm) {
 			Debug.Log ("chinpokomon");
@@ -193,7 +197,12 @@ public class SpaceShuttle : NetworkBehaviour
 
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         shuttleRigidBody.angularVelocity = Vector3.zero;
-		UpdateCanadarm ();
+
+        // Update canvas' position
+        canvas.transform.rotation = shuttleObject.transform.rotation;
+        canvas.transform.position = shuttleObject.transform.position;
+
+        UpdateCanadarm ();
     }
 
 	void UpdateCanadarm()
@@ -201,9 +210,9 @@ public class SpaceShuttle : NetworkBehaviour
 
 		Debug.Log ("sug kuk space shuttle");
 		// Get Joystick values
-		dx = Input.GetAxis("Vertical") * rotationSpeed;
-		dy = Input.GetAxis("Horizontal") * rotationSpeed;
-		dz = Input.GetAxis("Z Axis") * rotationSpeed;
+		dx = Input.GetAxis("Vertical2") * rotationSpeed;
+		dy = Input.GetAxis("Horizontal2") * rotationSpeed;
+		dz = Input.GetAxis("Z Axis2") * rotationSpeed;
 
 		// Update arm's custom rotation values
 		basePivotCurrentVerticalAngle -= dx;

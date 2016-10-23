@@ -43,11 +43,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         InitSatellites();
-        scoreText.GetComponent<Text>();
-        scoreText.text = "SCORE: " + score;
+        // scoreText.GetComponent<Text>();
+        scoreText.gameObject.SetActive(false);
+        //scoreText.text = "SCORE: " + score;
 
-        endGameText.GetComponent<Text>();
+       // endGameText.GetComponent<Text>();
         endGameText.gameObject.SetActive(false);
+
+        scoreText.text = "SCORE: " + score;
+        scoreText.gameObject.SetActive(true);
     }
 
     void InitSatellites()
@@ -74,8 +78,9 @@ public class GameManager : MonoBehaviour
     {
         SpawnManager.instance.DisableSatellites();
 
-        endGameText.text = "YOUR SCORE " + "\n" + score + " PTS";
-        endGameText.gameObject.SetActive(true);
+        //endGameText.text = "YOUR SCORE " + "\n" + score + " PTS";
+        endGameText.text = "TIME'S\nUP";
+        endGameText.gameObject.SetActive(true);        
         gameOver = true;
     }
 
@@ -85,7 +90,7 @@ public class GameManager : MonoBehaviour
     {
         if (x == 100)
         {
-            Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
+            //Debug.Log("tick tock " + (Time.time - gameTime) + " " + playTimeInSeconds);
             if (Time.time - gameTime >= playTimeInSeconds)
             {
                 Debug.Log("TIMES UP BIATCH!");
@@ -96,6 +101,9 @@ public class GameManager : MonoBehaviour
         else
         {
             x++;
+
+            scoreText.text = "SCORE: " + score;
+            scoreText.gameObject.SetActive(true);
         }
 
         if(gameOver)
