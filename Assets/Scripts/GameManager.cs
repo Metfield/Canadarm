@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private int x = 0;
 
     private bool gameOver = false;
+    private bool gameStarted = false;
 
     public static GameManager instance = null;
 
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
     public void startTimer()
     {
         timerStarted = true;
+        gameStarted = true;
         gameTime = Time.time;
     }
 
@@ -100,8 +102,18 @@ public class GameManager : MonoBehaviour
         endGameText.text = "TIME'S\nUP";
         endGameText.gameObject.SetActive(true);        
         gameOver = true;
+        gameStarted = false;
     }
 
+    public void setGameStarted(bool b)
+    {
+        gameStarted = b;
+    }
+
+    public bool getGameStarted()
+    {
+        return gameStarted;
+    }
 
     // Update is called once per frame
     void Update()
@@ -128,7 +140,6 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButton("Fire1"))
             {
-
                 GameManager.instance = null;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 endGameText.gameObject.SetActive(false);

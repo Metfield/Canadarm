@@ -141,7 +141,11 @@ public class SpaceShuttle : NetworkBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (GameManager.instance.IsGameOver())
+        // Update canvas' position
+        canvas.transform.rotation = shuttleObject.transform.rotation;
+        canvas.transform.position = shuttleObject.transform.position;
+
+        if (GameManager.instance.IsGameOver() || !GameManager.instance.getGameStarted())
             return;
 
 		if (!isLocalPlayer)
@@ -219,11 +223,7 @@ public class SpaceShuttle : NetworkBehaviour
 
         // @TODO: ADD A CONDITION IN CASE THERE WAS A COLLISION
         shuttleRigidBody.angularVelocity = Vector3.zero;
-
-        // Update canvas' position
-        canvas.transform.rotation = shuttleObject.transform.rotation;
-        canvas.transform.position = shuttleObject.transform.position;
-
+        
         UpdateCanadarm ();
     }
 
