@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -145,6 +146,8 @@ public class GameManager : MonoBehaviour
                 endGameText.gameObject.SetActive(false);
                 gameOver = false;
                 //timerStarted = false;
+
+                NetworkManager.singleton.ServerChangeScene(SceneManager.GetActiveScene().name);
             }
         }
     }
