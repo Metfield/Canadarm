@@ -39,7 +39,8 @@ public class SpaceShuttle : NetworkBehaviour
 	//Canadarm stuff
 	protected GameObject forearm;
 	protected GameObject canadarm;
-	protected GameObject shuttle;
+    protected GameObject hackadarm;
+    protected GameObject shuttle;
 
 
 	[SerializeField]
@@ -62,7 +63,7 @@ public class SpaceShuttle : NetworkBehaviour
 
 	protected float dx, dy, dz, twist;
 
-	protected Vector3 rotationCanadarm;
+	protected Vector3 rotationCanadarmX, rotationCanadarmY;
 	protected float middlePivotCurrentAngle;
 
     // Use this for initialization
@@ -91,7 +92,8 @@ public class SpaceShuttle : NetworkBehaviour
 
 		//Canadarm stuff
 		canadarm = shuttleObject.transform.Find("Cupola/Canadarm").gameObject;
-		forearm = shuttleObject.transform.Find("Cupola/Canadarm/Base Pivot/UpperArm/Forearm").gameObject;
+        hackadarm = shuttleObject.transform.Find("Cupola/Canadarm/HackadarmRotation").gameObject;
+		forearm = shuttleObject.transform.Find("Cupola/Canadarm/HackadarmRotation/Base Pivot/UpperArm/Forearm").gameObject;
 
 		if (canadarm) {
 			Debug.Log ("chinpokomon");
@@ -105,14 +107,14 @@ public class SpaceShuttle : NetworkBehaviour
 		else {
 			Debug.Log ("not alabama man");
 		}
-		middlePivotCurrentAngle = 0.0f;
 
+		middlePivotCurrentAngle = 0.0f;
     }
 
-  public float GetMaxSpeed()
-  {
-    return maxSpeed;
-  }
+    public float GetMaxSpeed()
+    {
+        return maxSpeed;
+    }
 
 	// Update is called once per frame
 	void Update ()
@@ -161,7 +163,8 @@ public class SpaceShuttle : NetworkBehaviour
 		else {
 			Debug.Log ("not shuttle object");
 		}
-		shuttleRigidBody.AddForce(Input.GetAxis("Slider Axis") * shuttleObject.transform.right * (maxSpeed * 0.5f));
+
+        shuttleRigidBody.AddForce(Input.GetAxis("Slider Axis") * shuttleObject.transform.right * (maxSpeed * 0.5f));
 
         // Extra yaw skit
         if (Input.GetKey(KeyCode.E))
@@ -208,15 +211,16 @@ public class SpaceShuttle : NetworkBehaviour
 		middlePivotCurrentAngle -= dz;
 
 		// Set rotation to zero
-		rotationCanadarm = Vector3.zero;
+		rotationCanadarmX = Vector3.zero;
+        rotationCanadarmY = Vector3.zero;
 
-		twist = Input.GetAxis("RZ Axis") * rotationSpeed;
+        twist = Input.GetAxis("RZ Axis") * rotationSpeed;
 
 		// Check for horizontal rotation boundaries at base
 		if(Mathf.Abs(basePivotCurrentHorizontalAngle) < basePivotHorizontalMaxAngle)
 		{
 			// Rotation is allowed
-			rotationCanadarm.y = dy;
+			rotationCanadarmY.y = dy;
 		}
 		else
 		{
@@ -228,23 +232,18 @@ public class SpaceShuttle : NetworkBehaviour
 			(basePivotCurrentVerticalAngle > basePivotLowerMaxAngle) )
 		{
 			// Rotation is allowed
-			rotationCanadarm.x = -dx;
+			rotationCanadarmX.x = -dx;
 		}
 		else
 		{
 			basePivotCurrentVerticalAngle += dx;
 		}
 
-        // ARGH FUCKING SHIT DOESNT WORK ONLINE!
-        //canadarm.transform.localRotation = Quaternion.Euler(basePivotCurrentVerticalAngle, basePivotCurrentHorizontalAngle, 0.0f);
+        // Hackadarm hack
+        canadarm.transform.Rotate(new Vector3(rotationCanadarmX.x, 0, 0), Space.Self);
+        hackadarm.transform.Rotate(new Vector3(0, rotationCanadarmY.y, 0), Space.Self);
 
-        
-        // THIS WORKS ONLINE
-        canadarm.transform.Rotate(rotationCanadarm, Space.Self);
-
-
-
-        //this.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
+        //hackadarm.transform.Rotate(new Vector3(0.0f, 0.0f, -twist), Space.Self);
 
         // Check for max angle
         if (Mathf.Abs(middlePivotCurrentAngle) < middlePivotMaxAngle)
