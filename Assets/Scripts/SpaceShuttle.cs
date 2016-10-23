@@ -68,14 +68,19 @@ public class SpaceShuttle : NetworkBehaviour
 	protected Vector3 rotationCanadarmX, rotationCanadarmY;
 	protected float middlePivotCurrentAngle;
 
+    
+
     // Use this for initialization
     void Start ()
     {
         // Gets the space shuttle impostors to FUCK THE FUCK OFF
 		if (gameObject.tag != "SpaceShuttle")
         {
-			gameObject.transform.position = new Vector3(100000,100000,100000);		
-		}
+            if(GameManager.instance.getMyBalls() == 0)
+                gameObject.transform.position = new Vector3(100000, 100000, 100000);                       
+            else
+                gameObject.transform.position = new Vector3(100000, 100000, -100000);
+        }
 
 		shuttleObject = GameObject.FindGameObjectWithTag ("SpaceShuttle");
 

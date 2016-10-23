@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
 
+   
+    protected int suckMyBalls = -1;
+
     // Use this for initialization
     void Start()
     {
@@ -51,6 +54,12 @@ public class GameManager : MonoBehaviour
 
         scoreText.text = "SCORE: " + score;
         scoreText.gameObject.SetActive(true);
+    }
+
+    public int getMyBalls()
+    {
+        suckMyBalls++;
+        return suckMyBalls;
     }
 
     void InitSatellites()
