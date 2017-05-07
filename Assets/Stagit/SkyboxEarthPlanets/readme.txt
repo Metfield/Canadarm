@@ -25,6 +25,14 @@ However this can also cause some trouble with Unity. Sometimes you will see a me
 You can either solve this by changing the texture settings again, but also if you don't need the alpha channel the best option is to remove the alpha channel by for example saving all textures in to a 100% jpeg file.
 The order of entering the skybox textures is Front: 1 Back: 3 Left: 2 Right: 4 Up: 6 Down: 5 (this is the same for all textures)
 
++X 2
+-X 4
+
++Y 6
+-Y 5
+
++Z 1
+-Z 3
 
 WARNINGS
 All the textures are delivered in 2048px (and some even 4096px) if your developing a mobile game or web based game make sure that all the textures match the those based settings (so you need to make them lower -> selecting all textures and select overide [selecting the platfrom you want to ovveride]) for mobile games 1024px is mostly suitable.
